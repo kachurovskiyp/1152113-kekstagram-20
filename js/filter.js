@@ -6,10 +6,11 @@
     active: function () {
       filter.classList.remove('img-filters--inactive');
       var buttons = filter.querySelectorAll('button.img-filters__button');
+
       buttons.forEach(function (button) {
-        button.addEventListener('click', function () {
+        button.addEventListener('click', window.debounce(function () {
           window.picture.sort(button.id);
-        });
+        }));
       });
     }
   };

@@ -33,14 +33,23 @@
     },
 
     sort: function (buttonId) {
+      this.remove();
+      var data = window.usersFoto.slice();
+
       switch (buttonId) {
         case SortButtonId.default:
-          this.remove();
           this.render(window.usersFoto);
           break;
         case SortButtonId.random:
-          this.remove();
-          this.render(window.usersFoto.slice(15));
+          this.render(window.getRandom(window.usersFoto, 10));
+          break;
+        case SortButtonId.discussed:
+          this.render(data
+            .sort(function (a, b) {
+              return a.comments.length - b.comments.length;
+            })
+            .reverse()
+          )
           break;
       }
     }
