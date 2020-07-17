@@ -18,25 +18,16 @@
     Default: '100%'
   };
 
-  /* var Effect = {
-    None: 'none',
-    Chrome: 'chrome',
-    Sepia: 'sepia',
-    Marvin: 'marvin',
-    Phobos: 'phobos',
-    Heat: 'heat'
-  } */
-
   var setScale = function (evt) {
     var valueInt = +scaleValue.value.slice(0, scaleValue.value.length - 1);
 
-    if (evt.target.classList.contains(window.Class.ScaleDown.slice(1))){
+    if (evt.target.classList.contains(window.Class.ScaleDown.slice(1))) {
       if (valueInt !== Scale.Min) {
         valueInt -= Scale.Step;
         scaleValue.value = valueInt + '%';
       }
     }
-    if (evt.target.classList.contains(window.Class.ScaleUp.slice(1))){
+    if (evt.target.classList.contains(window.Class.ScaleUp.slice(1))) {
       if (valueInt !== Scale.Max) {
         valueInt += Scale.Step;
         scaleValue.value = valueInt + '%';
@@ -54,22 +45,26 @@
     if (evt.key === window.EvtKey.Enter) {
       setScale(evt);
     }
-  }
+  };
 
   var toggleEffect = function (evt) {
-    if(evt.target.value === 'none') {
+    if (evt.target.value === 'none') {
       imagePreview.removeAttribute('class');
+
       if (!effectControl.classList.contains(window.Class.Hidden.slice(1))) {
         effectControl.classList.add(window.Class.Hidden.slice(1));
+        window.effectLevel.unsetMove();
       }
     } else {
       imagePreview.removeAttribute('class');
       imagePreview.classList.add('effects__preview--' + evt.target.value);
+      window.effectLevel.resetLevel();
       if (effectControl.classList.contains(window.Class.Hidden.slice(1))) {
         effectControl.classList.remove(window.Class.Hidden.slice(1));
+        window.effectLevel.setMove();
       }
     }
-  }
+  };
 
   var closeEvt = function () {
     window.uploadForm.close();
@@ -81,14 +76,14 @@
       window.uploadForm.close();
       window.removeEventListener('click', closeEscEvt);
     }
-  }
+  };
 
   window.uploadForm = {
     open: function () {
-      if (uploadForm.classList.contains(window.Class.Hidden.slice(1))){
+      if (uploadForm.classList.contains(window.Class.Hidden.slice(1))) {
         uploadForm.classList.remove(window.Class.Hidden.slice(1));
       }
-      if (!body.classList.contains(window.Class.ModalOpen.slice(1))){
+      if (!body.classList.contains(window.Class.ModalOpen.slice(1))) {
         body.classList.add(window.Class.ModalOpen.slice(1));
       }
 
@@ -98,28 +93,28 @@
       uploadCancel.addEventListener('click', closeEvt);
       window.addEventListener('keydown', closeEscEvt);
 
-      scaleControl.querySelectorAll('button').forEach( function (button) {
+      scaleControl.querySelectorAll('button').forEach(function (button) {
         button.addEventListener('click', setScale);
         button.addEventListener('keydown', setScaleEnter);
       });
 
-      effectList.querySelectorAll('input[type="radio"]').forEach( function (input) {
+      effectList.querySelectorAll('input[type="radio"]').forEach(function (input) {
         input.addEventListener('change', toggleEffect);
       });
     },
 
     close: function () {
-      if (!uploadForm.classList.contains(window.Class.Hidden.slice(1))){
+      if (!uploadForm.classList.contains(window.Class.Hidden.slice(1))) {
         uploadForm.classList.add(window.Class.Hidden.slice(1));
       }
-      if (body.classList.contains(window.Class.ModalOpen.slice(1))){
+      if (body.classList.contains(window.Class.ModalOpen.slice(1))) {
         body.classList.remove(window.Class.ModalOpen.slice(1));
       }
-      scaleControl.querySelectorAll('button').forEach( function (button) {
+      scaleControl.querySelectorAll('button').forEach(function (button) {
         button.removeEventListener('click', setScale);
         button.removeEventListener('keydown', setScaleEnter);
-      } );
-      effectList.querySelectorAll('input[type="radio"]').forEach( function (input) {
+      });
+      effectList.querySelectorAll('input[type="radio"]').forEach(function (input) {
         input.removeEventListener('change', toggleEffect);
       });
     }

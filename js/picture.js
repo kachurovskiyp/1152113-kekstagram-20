@@ -49,7 +49,7 @@
               return a.comments.length - b.comments.length;
             })
             .reverse()
-          )
+          );
           break;
       }
     }
