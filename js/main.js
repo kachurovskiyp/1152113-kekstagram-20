@@ -13,16 +13,18 @@
     Hidden: '.hidden',
     ModalOpen: '.modal-open',
     ScaleDown: '.scale__control--smaller',
-    ScaleUp: '.scale__control--bigger'
+    ScaleUp: '.scale__control--bigger',
+    FilterButtonActive: 'img-filters__button--active'
   };
 
-  /* var fileInput = document.querySelector('#upload-file'); */
+  var fileInput = document.querySelector('#upload-file');
+  var preview = document.querySelector('.img-upload__preview img');
 
   window.backend('load');
 
-  /* fileInput.addEventListener('change', function () {
-    uploadForm.open();
-  }) */
+  window.readImage(fileInput, preview);
 
-  window.uploadForm.open();
+  fileInput.addEventListener('change', function () {
+    uploadForm.open();
+  })
 })();

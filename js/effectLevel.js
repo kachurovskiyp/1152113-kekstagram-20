@@ -57,12 +57,14 @@
       if (levelPin.offsetLeft > CoordsX.min) {
         levelPin.style.left = (levelPin.offsetLeft - CoordsX.step) + 'px';
         levelDepth.style.width = (levelPin.offsetLeft - (CoordsX.step / 2)) + 'px';
+        window.effectLevel.setEffectValue();
       }
     }
     if (evt.key === window.EvtKey.Right) {
       if (levelPin.offsetLeft < CoordsX.max) {
         levelPin.style.left = (levelPin.offsetLeft + CoordsX.step) + 'px';
         levelDepth.style.width = (levelPin.offsetLeft + (CoordsX.step / 2)) + 'px';
+        window.effectLevel.setEffectValue();
       }
     }
   };
@@ -85,7 +87,7 @@
     setEffectValue: function () {
       var choosedEffect = effectList.querySelector('input[type="radio"]:checked').value;
       var value;
-      switch (choosedEffect) { /* !!!!!!!!!!!!! */
+      switch (choosedEffect) {
         case Effect.Chrome:
           value = (levelPin.offsetLeft / 450).toFixed(3);
           imagePreview.style.filter = 'grayscale(' + value + ')';
@@ -102,11 +104,13 @@
           value = (levelPin.offsetLeft / 450 * 3).toFixed(2);
           imagePreview.style.filter = 'blur(' + value + 'px)';
           break;
-        case Effect.Heat:
+/* wrong value */  case Effect.Heat:
           value = (levelPin.offsetLeft / 450 + 1).toFixed(2);
           imagePreview.style.filter = 'brightness(' + value + ')';
-          console.log(imagePreview.style.filter);
           break;
+        default:
+        imagePreview.removeAttribute('class');
+        break;
       }
     }
   };

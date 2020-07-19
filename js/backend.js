@@ -3,7 +3,7 @@
 (function () {
   var Url = {
     load: 'https://javascript.pages.academy/kekstagram/data',
-    send: ''
+    send: 'https://javascript.pages.academy/kekstagram'
   };
   var Method = {
     load: 'GET',
