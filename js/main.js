@@ -25,6 +25,6 @@
   window.readImage(fileInput, preview);
 
   fileInput.addEventListener('change', function () {
-    uploadForm.open();
-  })
+    window.uploadForm.open();
+  });
 })();

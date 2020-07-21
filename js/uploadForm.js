@@ -89,58 +89,69 @@
   var verifyHastags = function () {
     var reg = /[a-zA-Zа-яА-ЯЁё0-9]/g;
 
-    if (hashtags.value === ' ') {
-      hashtags.value = '';
-    }
-
-    if (hashtags.value.length > 1) {
-      if (!hashtags.value.includes('#')) {
-        hashtags.value = '#' + hashtags.value;
-      }
-    }
-
     var tags = hashtags.value.toLowerCase().split(' ');
 
-    tags.forEach(function (tag, i) {
-      if (tag !== '') {
-        var tagVerify = tag.slice(1).match(reg);
+    /* tags.forEach(function (tag) */
+    for (var i = 0; i < tags.length; i++) {
+      var valid = true;
+      var tagVerify = tags[i].slice(1).match(reg);
 
-        if (!tag.startsWith('#')) {
-          tags[i] = '#' + tag;
-          hashtags.value = tags.join(' ');
+      if (tags[i] !== '') {
+        if (!tags[i].startsWith('#')) {
+          hashtags.setCustomValidity('Хэштэги должны начинаться с "#"');
+          valid = false;
+        }
+        if (valid && tags[i].slice(1).length < 1) {
+          hashtags.setCustomValidity('Один из хэштэгов пуст');
+          valid = false;
         }
 
-        if (tagVerify !== null && tagVerify.length !== tag.length) {
+        if (valid && tagVerify !== null && tagVerify.length !== tags[i].slice(1).length) {
           hashtags.setCustomValidity('Один из хэштэгов содержит запрещенные символы ("@", "$", ",", "%" и т.д.)');
-        } else {
-          hashtags.setCustomValidity('');
+          valid = false;
         }
 
-        if (tag.length === 1) {
+        if (valid && tags[i].length <= 1) {
           hashtags.setCustomValidity('Один из хэштэгов слишком короткий');
-        } else {
-          hashtags.setCustomValidity('');
+          valid = false;
         }
 
-        if (tag.length > 20) {
-          hashtags.setCustomValidity('Один из хэштэгов слишком длинный (макс. 20 знаков)');
-        } else {
-          hashtags.setCustomValidity('');
+        if (valid && tags[i].length > 20) {
+          var verifyLength = function () {
+            if (hashtags.value.length > 20) {
+              hashtags.setCustomValidity('Один из хэштэгов слишком длинный (' + hashtags.value.length + '/20 знаков)');
+              valid = false;
+            } else {
+              hashtags.setCustomValidity('');
+              hashtags.removeEventListener('input', verifyLength);
+              valid = true;
+            }
+          };
+
+          hashtags.addEventListener('input', verifyLength);
+          hashtags.setCustomValidity('Один из хэштэгов слишком длинный (' + tags[i].length + '/20 знаков)');
+          valid = false;
         }
 
-        if (tags.length > 1 && tags.includes(tag)) {
+        if (valid && tags.length > 1 && tags.filter(function (item) {
+          return item === tags[i];
+        }).length > 1) {
           hashtags.setCustomValidity('Хэштэги повторяются');
-        } else {
-          hashtags.setCustomValidity('');
+          valid = false;
         }
 
-        if (tags.length > 5) {
+        if (valid && tags.length > 5) {
           hashtags.setCustomValidity('Хэштэгов много. Максимум 5 шт.');
-        } else {
-          hashtags.setCustomValidity('');
+          valid = false;
         }
       }
-    });
+
+      if (valid) {
+        hashtags.setCustomValidity('');
+      } else {
+        break;
+      }
+    }
   };
 
   var verifyComments = function () {
@@ -149,7 +160,7 @@
     } else {
       comments.setCustomValidity('');
     }
-  }
+  };
 
   var stopEvtEsc = function (evt) {
     if (evt.key === window.EvtKey.Esc) {
@@ -199,7 +210,9 @@
         input.addEventListener('change', toggleEffect);
       });
 
-      hashtags.addEventListener('input', verifyHastags);
+      window.effectLevel.resetLevel();
+
+      hashtags.addEventListener('change', verifyHastags);
       hashtags.addEventListener('keydown', stopEvtEsc);
 
       comments.addEventListener('change', verifyComments);

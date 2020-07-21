@@ -12,6 +12,6 @@
     var closeButton = message.querySelector('button');
     closeButton.addEventListener('click', function () {
       message.remove();
-    })
+    });
   };
 })();

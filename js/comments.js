@@ -9,7 +9,7 @@
     if (!commentLoader.classList.contains(window.Class.Hidden.slice(1))) {
       commentLoader.classList.add(window.Class.Hidden.slice(1));
     }
-  }
+  };
 
   var render = function (data) {
     var fragment = document.createDocumentFragment();
@@ -22,7 +22,7 @@
       fragment.appendChild(newComment);
     });
     commentSection.appendChild(fragment);
-  }
+  };
 
   window.comments = function (commentList) {
     while (commentSection.firstChild) {
@@ -56,14 +56,12 @@
 
       var getShortComments = function () {
         var short = [];
-        if(localcomments.length > 5) {
+        if (localcomments.length > 5) {
           for (var i = 0; i < 5; i++) {
             short.push(localcomments.shift());
           }
         } else {
-          for (var i = 0; i < localcomments.length; i++) {
-            short.push(localcomments.shift());
-          }
+          return localcomments;
         }
         return short;
       };

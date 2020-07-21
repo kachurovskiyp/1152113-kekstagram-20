@@ -18,10 +18,10 @@
     var closeButton = document.querySelector('.big-picture__cancel');
 
     var bigPictureClose = function () {
-      if (body.classList.contains(window.Class.ModalOpen.slice(1))){
+      if (body.classList.contains(window.Class.ModalOpen.slice(1))) {
         body.classList.remove(window.Class.ModalOpen.slice(1));
       }
-      if (!bigPictureSection.classList.contains(window.Class.Hidden.slice(1))){
+      if (!bigPictureSection.classList.contains(window.Class.Hidden.slice(1))) {
         bigPictureSection.classList.add(window.Class.Hidden.slice(1));
       }
 
@@ -29,11 +29,11 @@
       window.removeEventListener('keydown', bigPictureEscClose);
     };
 
-    var bigPictureEscClose = function (evt) {
-      if (evt.key === window.EvtKey.Esc) {
+    var bigPictureEscClose = function (escEvt) {
+      if (escEvt.key === window.EvtKey.Esc) {
         bigPictureClose();
       }
-    }
+    };
 
     picture.src = window.usersFoto[id].url;
     picture.alt = window.usersFoto[id].description;
@@ -43,10 +43,10 @@
 
     window.comments(window.usersFoto[id].comments);
 
-    if (!body.classList.contains(window.Class.ModalOpen.slice(1))){
+    if (!body.classList.contains(window.Class.ModalOpen.slice(1))) {
       body.classList.add(window.Class.ModalOpen.slice(1));
     }
-    if (bigPictureSection.classList.contains(window.Class.Hidden.slice(1))){
+    if (bigPictureSection.classList.contains(window.Class.Hidden.slice(1))) {
       bigPictureSection.classList.remove(window.Class.Hidden.slice(1));
     }
     closeButton.addEventListener('click', bigPictureClose);
@@ -75,7 +75,6 @@
         });
 
         picture.querySelector('img').src = item.url;
-        picture.querySelector('img').children
         picture.querySelector('.picture__likes').textContent = item.likes;
         picture.querySelector('.picture__comments').textContent = item.comments.length;
         fragment.appendChild(picture);
@@ -101,7 +100,7 @@
 
       var buttons = document.querySelectorAll('button.img-filters__button');
       buttons.forEach(function (button) {
-        if (button.classList.contains(window.Class.FilterButtonActive)){
+        if (button.classList.contains(window.Class.FilterButtonActive)) {
           button.classList.remove(window.Class.FilterButtonActive);
         }
         if (button.id === buttonId) {

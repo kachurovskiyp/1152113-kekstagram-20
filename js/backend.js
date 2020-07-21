@@ -20,6 +20,7 @@
     var picturesPlace = document.querySelector('.pictures');
     var errMassage = document.createElement('span');
     errMassage.textContent = err;
+    window.uploadForm.close();
     picturesPlace.appendChild(errMassage);
   };
 

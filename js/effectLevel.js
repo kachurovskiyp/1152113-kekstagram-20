@@ -3,7 +3,6 @@
 (function () {
   var levelPin = document.querySelector('.effect-level__pin');
   var levelDepth = document.querySelector('.effect-level__depth');
-  var levelSet = document.querySelector('.img-upload__effect-level');
   var imagePreview = document.querySelector('.img-upload__preview img');
   var effectList = document.querySelector('.effects__list');
   var CoordsX = {
@@ -32,24 +31,17 @@
   };
 
   var setMove = function (evt) {
-    if (evt.button === window.EvtKey.MouseLeft) {
-      startXCoords = evt.clientX;
-    }
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       window.effectLevel.setEffectValue();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  };
-
-  var setPosition = function (evt) {
-    levelPin.style.left = evt.offsetX + 'px';
-    levelDepth.style.width = evt.offsetX + 'px';
-    window.effectLevel.setEffectValue();
+    if (evt.button === window.EvtKey.MouseLeft) {
+      startXCoords = evt.clientX;
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    }
   };
 
   var setMoveArrow = function (evt) {
@@ -73,44 +65,48 @@
     setMove: function () {
       levelPin.addEventListener('mousedown', setMove);
       levelPin.addEventListener('keydown', setMoveArrow);
-      levelSet.addEventListener('click', setPosition);
     },
     unsetMove: function () {
       levelPin.removeEventListener('mousedown', setMove);
       levelPin.removeEventListener('keydown', setMoveArrow);
-      levelSet.removeEventListener('click', setPosition);
     },
     resetLevel: function () {
+      imagePreview.removeAttribute('class');
+      imagePreview.removeAttribute('style');
       levelPin.style.left = CoordsX.max + 'px';
       levelDepth.style.width = CoordsX.max + 'px';
     },
     setEffectValue: function () {
       var choosedEffect = effectList.querySelector('input[type="radio"]:checked').value;
-      var value;
+      var effectInput = document.querySelector('input.effect-level__value');
+      var value = +levelPin.style.left.replace('px', '');
+
+      effectInput.setAttribute('value', (value * 100 / 450).toFixed(1));
+
       switch (choosedEffect) {
         case Effect.Chrome:
-          value = (levelPin.offsetLeft / 450).toFixed(3);
+          value = (value / 450).toFixed(3);
           imagePreview.style.filter = 'grayscale(' + value + ')';
           break;
         case Effect.Sepia:
-          value = (levelPin.offsetLeft / 450).toFixed(3);
+          value = (value / 450).toFixed(3);
           imagePreview.style.filter = 'sepia(' + value + ')';
           break;
         case Effect.Marvin:
-          value = (levelPin.offsetLeft * 100 / 450).toFixed(1);
+          value = (value * 100 / 450).toFixed(1);
           imagePreview.style.filter = 'invert(' + value + '%)';
           break;
         case Effect.Phobos:
-          value = (levelPin.offsetLeft / 450 * 3).toFixed(2);
+          value = (value / 450 * 3).toFixed(2);
           imagePreview.style.filter = 'blur(' + value + 'px)';
           break;
-/* wrong value */  case Effect.Heat:
-          value = (levelPin.offsetLeft / 450 + 1).toFixed(2);
+        case Effect.Heat:
+          value = 3 * (((value * 100 / 450).toFixed(2)) / 100);
           imagePreview.style.filter = 'brightness(' + value + ')';
           break;
         default:
-        imagePreview.removeAttribute('class');
-        break;
+          imagePreview.removeAttribute('class');
+          break;
       }
     }
   };
