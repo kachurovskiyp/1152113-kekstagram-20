@@ -19,11 +19,11 @@
     var closeButton = document.querySelector('.big-picture__cancel');
 
     var onCloseButtonClick = function () {
-      if (body.classList.contains(window.Class.MODAL_OPEN.slice(1))) {
-        body.classList.remove(window.Class.MODAL_OPEN.slice(1));
+      if (body.classList.contains(window.config.ClassName.MODAL_OPEN.slice(1))) {
+        body.classList.remove(window.config.ClassName.MODAL_OPEN.slice(1));
       }
-      if (!bigPictureSection.classList.contains(window.Class.HIDDEN.slice(1))) {
-        bigPictureSection.classList.add(window.Class.HIDDEN.slice(1));
+      if (!bigPictureSection.classList.contains(window.config.ClassName.HIDDEN.slice(1))) {
+        bigPictureSection.classList.add(window.config.ClassName.HIDDEN.slice(1));
       }
 
       closeButton.removeEventListener('click', onCloseButtonClick);
@@ -31,7 +31,7 @@
     };
 
     var onCloseButtonKeydown = function (escEvt) {
-      if (escEvt.key === window.EvtKey.ESC) {
+      if (escEvt.key === window.config.EvtKey.ESC) {
         onCloseButtonClick();
       }
     };
@@ -44,11 +44,11 @@
 
     window.renderComments(window.usersFoto[id].comments);
 
-    if (!body.classList.contains(window.Class.MODAL_OPEN.slice(1))) {
-      body.classList.add(window.Class.MODAL_OPEN.slice(1));
+    if (!body.classList.contains(window.config.ClassName.MODAL_OPEN.slice(1))) {
+      body.classList.add(window.config.ClassName.MODAL_OPEN.slice(1));
     }
-    if (bigPictureSection.classList.contains(window.Class.HIDDEN.slice(1))) {
-      bigPictureSection.classList.remove(window.Class.HIDDEN.slice(1));
+    if (bigPictureSection.classList.contains(window.config.ClassName.HIDDEN.slice(1))) {
+      bigPictureSection.classList.remove(window.config.ClassName.HIDDEN.slice(1));
     }
     closeButton.addEventListener('click', onCloseButtonClick);
     window.addEventListener('keydown', onCloseButtonKeydown);
@@ -101,11 +101,11 @@
 
       var buttons = document.querySelectorAll('button.img-filters__button');
       buttons.forEach(function (button) {
-        if (button.classList.contains(window.Class.FILTER_BUTTON_ACTIVE)) {
-          button.classList.remove(window.Class.FILTER_BUTTON_ACTIVE);
+        if (button.classList.contains(window.config.ClassName.FILTER_BUTTON_ACTIVE)) {
+          button.classList.remove(window.config.ClassName.FILTER_BUTTON_ACTIVE);
         }
         if (button.id === buttonId) {
-          button.classList.add(window.Class.FILTER_BUTTON_ACTIVE);
+          button.classList.add(window.config.ClassName.FILTER_BUTTON_ACTIVE);
         }
       });
 

@@ -37,7 +37,7 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-    if (evt.button === window.EvtKey.MOUSE_LEFT) {
+    if (evt.button === window.config.EvtKey.MOUSE_LEFT) {
       startXCoords = evt.clientX;
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
@@ -45,14 +45,14 @@
   };
 
   var onLevelPinKeydown = function (evt) {
-    if (evt.key === window.EvtKey.LEFT) {
+    if (evt.key === window.config.EvtKey.LEFT) {
       if (levelPin.offsetLeft > CoordsX.MIN) {
         levelPin.style.left = (levelPin.offsetLeft - CoordsX.STEP) + 'px';
         levelDepth.style.width = (levelPin.offsetLeft - (CoordsX.STEP / 2)) + 'px';
         window.effectLevel.setEffectValue();
       }
     }
-    if (evt.key === window.EvtKey.RIGHT) {
+    if (evt.key === window.config.EvtKey.RIGHT) {
       if (levelPin.offsetLeft < CoordsX.MAX) {
         levelPin.style.left = (levelPin.offsetLeft + CoordsX.STEP) + 'px';
         levelDepth.style.width = (levelPin.offsetLeft + (CoordsX.STEP / 2)) + 'px';

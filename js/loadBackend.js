@@ -12,10 +12,6 @@
     SEND: 'POST'
   };
 
-  window.StatusCode = {
-    OK: 200
-  };
-
   var onError = function (err) {
     var errorMassage = document.createElement('span');
     errorMassage.textContent = err;
@@ -23,13 +19,13 @@
     window.picturesPlace.appendChild(errorMassage);
   };
 
-  window.loadBackend = function (data, onSuccess) {
+  window.backend = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     if (data === 'load') {
       xhr.addEventListener('load', function () {
-        if (xhr.status === window.StatusCode.OK) {
+        if (xhr.status === window.config.StatusCode.OK) {
           window.onLoad(xhr.response);
         } else {
           onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);

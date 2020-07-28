@@ -18,24 +18,24 @@
   var comments = document.querySelector('textarea.text__description');
 
   var Scale = {
-    Min: 25,
-    Max: 100,
-    Step: 25,
-    Default: '100%'
+    MIN: 25,
+    MAX: 100,
+    STEP: 25,
+    DEFAULT: '100%'
   };
 
   var onScaleButtonClick = function (evt) {
     var valueInt = +scaleValue.value.slice(0, scaleValue.value.length - 1);
 
-    if (evt.target.classList.contains(window.Class.SCALE_DOWN.slice(1))) {
-      if (valueInt !== Scale.Min) {
-        valueInt -= Scale.Step;
+    if (evt.target.classList.contains(window.config.ClassName.SCALE_DOWN.slice(1))) {
+      if (valueInt !== Scale.MIN) {
+        valueInt -= Scale.STEP;
         scaleValue.value = valueInt + '%';
       }
     }
-    if (evt.target.classList.contains(window.Class.SCALE_UP.slice(1))) {
-      if (valueInt !== Scale.Max) {
-        valueInt += Scale.Step;
+    if (evt.target.classList.contains(window.config.ClassName.SCALE_UP.slice(1))) {
+      if (valueInt !== Scale.MAX) {
+        valueInt += Scale.STEP;
         scaleValue.value = valueInt + '%';
       }
     }
@@ -57,8 +57,8 @@
     if (evt.target.value === 'none') {
       imagePreview.removeAttribute('class');
 
-      if (!effectControl.classList.contains(window.Class.HIDDEN.slice(1))) {
-        effectControl.classList.add(window.Class.HIDDEN.slice(1));
+      if (!effectControl.classList.contains(window.config.ClassName.HIDDEN.slice(1))) {
+        effectControl.classList.add(window.config.ClassName.HIDDEN.slice(1));
         window.effectLevel.unsetMove();
       }
     } else {
@@ -67,8 +67,8 @@
       window.effectLevel.resetLevel();
       window.effectLevel.setEffectValue();
 
-      if (effectControl.classList.contains(window.Class.HIDDEN.slice(1))) {
-        effectControl.classList.remove(window.Class.HIDDEN.slice(1));
+      if (effectControl.classList.contains(window.config.ClassName.HIDDEN.slice(1))) {
+        effectControl.classList.remove(window.config.ClassName.HIDDEN.slice(1));
         window.effectLevel.setMove();
       }
     }
@@ -76,13 +76,13 @@
 
   var onCancelButtonClick = function () {
     window.uploadForm.close();
-    uploadCancel.removeEventListener('click', closeEvt);
+    uploadCancel.removeEventListener('click', onCancelButtonClick);
   };
 
   var EscKeydownHandler = function (evt) {
-    if (evt.key === window.EvtKey.ESC) {
+    if (evt.key === window.config.EvtKey.ESC) {
       window.uploadForm.close();
-      window.removeEventListener('click',EscKeydownHandler);
+      window.removeEventListener('click', EscKeydownHandler);
     }
   };
 
@@ -91,7 +91,6 @@
 
     var tags = hashtags.value.toLowerCase().split(' ');
 
-    /* tags.forEach(function (tag) */
     for (var i = 0; i < tags.length; i++) {
       var valid = true;
       var tagVerify = tags[i].slice(1).match(reg);
@@ -117,18 +116,19 @@
         }
 
         if (valid && tags[i].length > 20) {
-          var verifyLength = function () {
+
+          var onInputVerifyLength = function () {
             if (hashtags.value.length > 20) {
               hashtags.setCustomValidity('Один из хэштэгов слишком длинный (' + hashtags.value.length + '/20 знаков)');
               valid = false;
             } else {
               hashtags.setCustomValidity('');
-              hashtags.removeEventListener('input', verifyLength);
+              hashtags.removeEventListener('input', onInputVerifyLength);
               valid = true;
             }
           };
 
-          hashtags.addEventListener('input', HastagsChangeHandler);
+          hashtags.addEventListener('input', onInputVerifyLength);
           hashtags.setCustomValidity('Один из хэштэгов слишком длинный (' + tags[i].length + '/20 знаков)');
           valid = false;
         }
@@ -163,7 +163,7 @@
   };
 
   var escapeKeydownHandler = function (evt) {
-    if (evt.key === window.EvtKey.ESC) {
+    if (evt.key === window.config.EvtKey.ESC) {
       evt.stopPropagation();
     }
   };
@@ -171,7 +171,7 @@
   var onFormSubmit = function (evt) {
     evt.preventDefault();
     window.loadBackend(new FormData(form), function (status) {
-      if (status === window.StatusCode.OK) {
+      if (status === window.config.StatusCode.OK) {
         window.uploadForm.close();
         window.getMessage('success');
       } else {
@@ -188,15 +188,15 @@
 
   window.uploadForm = {
     open: function () {
-      if (uploadForm.classList.contains(window.Class.HIDDEN.slice(1))) {
-        uploadForm.classList.remove(window.Class.HIDDEN.slice(1));
+      if (uploadForm.classList.contains(window.config.ClassName.HIDDEN.slice(1))) {
+        uploadForm.classList.remove(window.config.ClassName.HIDDEN.slice(1));
       }
-      if (!body.classList.contains(window.Class.MODAL_OPEN.slice(1))) {
-        body.classList.add(window.Class.MODAL_OPEN.slice(1));
+      if (!body.classList.contains(window.config.ClassName.MODAL_OPEN.slice(1))) {
+        body.classList.add(window.config.ClassName.MODAL_OPEN.slice(1));
       }
 
-      scaleValue.value = Scale.Default;
-      effectControl.classList.add(window.Class.HIDDEN.slice(1));
+      scaleValue.value = Scale.DEFAULT;
+      effectControl.classList.add(window.config.ClassName.HIDDEN.slice(1));
 
       uploadCancel.addEventListener('click', onCancelButtonClick);
       window.addEventListener('keydown', EscKeydownHandler);
@@ -222,11 +222,11 @@
     },
 
     close: function () {
-      if (!uploadForm.classList.contains(window.Class.HIDDEN.slice(1))) {
-        uploadForm.classList.add(window.Class.HIDDEN.slice(1));
+      if (!uploadForm.classList.contains(window.config.ClassName.HIDDEN.slice(1))) {
+        uploadForm.classList.add(window.config.ClassName.HIDDEN.slice(1));
       }
-      if (body.classList.contains(window.Class.MODAL_OPEN.slice(1))) {
-        body.classList.remove(window.Class.MODAL_OPEN.slice(1));
+      if (body.classList.contains(window.config.ClassName.MODAL_OPEN.slice(1))) {
+        body.classList.remove(window.config.ClassName.MODAL_OPEN.slice(1));
       }
       scaleControl.querySelectorAll('button').forEach(function (button) {
         button.removeEventListener('click', onScaleButtonClick);

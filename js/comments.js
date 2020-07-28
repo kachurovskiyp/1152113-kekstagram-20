@@ -7,8 +7,8 @@
   var commentTemplate = document.querySelector('#comment');
 
   var hideLoader = function () {
-    if (!commentLoader.classList.contains(window.Class.HIDDEN.slice(1))) {
-      commentLoader.classList.add(window.Class.HIDDEN.slice(1));
+    if (!commentLoader.classList.contains(window.config.ClassName.HIDDEN.slice(1))) {
+      commentLoader.classList.add(window.config.ClassName.HIDDEN.slice(1));
     }
   };
 
@@ -50,8 +50,8 @@
     }
 
     if (commentList.length > COMMENTS_NUMBER) {
-      if (commentLoader.classList.contains(window.Class.HIDDEN.slice(1))) {
-        commentLoader.classList.remove(window.Class.HIDDEN.slice(1));
+      if (commentLoader.classList.contains(window.config.ClassName.HIDDEN.slice(1))) {
+        commentLoader.classList.remove(window.config.ClassName.HIDDEN.slice(1));
       }
       var localcomments = commentList.slice();
 
