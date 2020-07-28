@@ -3,7 +3,7 @@
 (function () {
   var messageSection = document.querySelector('main');
 
-  window.message = function (type) {
+  window.getMessage = function (type) {
     var template = document.querySelector('#' + type);
     if (template) {
       messageSection.appendChild(template.cloneNode(true).content);

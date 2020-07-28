@@ -1,11 +1,12 @@
 'use strict';
 
 (function () {
-  var picturesPlace = document.querySelector('.pictures');
+  window.picturesPlace = document.querySelector('.pictures');
+
   var SortButtonId = {
-    default: 'filter-default',
-    random: 'filter-random',
-    discussed: 'filter-discussed'
+    DEFAULT: 'filter-default',
+    RANDOM: 'filter-random',
+    DISSCUSED: 'filter-discussed'
   };
 
   var bigPictureOpen = function (evt) {
@@ -17,21 +18,21 @@
     var picture = bigPictureSection.querySelector('.big-picture__img').querySelector('img');
     var closeButton = document.querySelector('.big-picture__cancel');
 
-    var bigPictureClose = function () {
-      if (body.classList.contains(window.Class.ModalOpen.slice(1))) {
-        body.classList.remove(window.Class.ModalOpen.slice(1));
+    var onCloseButtonClick = function () {
+      if (body.classList.contains(window.Class.MODAL_OPEN.slice(1))) {
+        body.classList.remove(window.Class.MODAL_OPEN.slice(1));
       }
-      if (!bigPictureSection.classList.contains(window.Class.Hidden.slice(1))) {
-        bigPictureSection.classList.add(window.Class.Hidden.slice(1));
+      if (!bigPictureSection.classList.contains(window.Class.HIDDEN.slice(1))) {
+        bigPictureSection.classList.add(window.Class.HIDDEN.slice(1));
       }
 
-      closeButton.removeEventListener('click', bigPictureClose);
-      window.removeEventListener('keydown', bigPictureEscClose);
+      closeButton.removeEventListener('click', onCloseButtonClick);
+      window.removeEventListener('keydown', onCloseButtonKeydown);
     };
 
-    var bigPictureEscClose = function (escEvt) {
-      if (escEvt.key === window.EvtKey.Esc) {
-        bigPictureClose();
+    var onCloseButtonKeydown = function (escEvt) {
+      if (escEvt.key === window.EvtKey.ESC) {
+        onCloseButtonClick();
       }
     };
 
@@ -41,16 +42,16 @@
     bigPictureSection.querySelector('.likes-count').textContent = window.usersFoto[id].likes;
     bigPictureSection.querySelector('.comments-count').textContent = window.usersFoto[id].comments.length;
 
-    window.comments(window.usersFoto[id].comments);
+    window.renderComments(window.usersFoto[id].comments);
 
-    if (!body.classList.contains(window.Class.ModalOpen.slice(1))) {
-      body.classList.add(window.Class.ModalOpen.slice(1));
+    if (!body.classList.contains(window.Class.MODAL_OPEN.slice(1))) {
+      body.classList.add(window.Class.MODAL_OPEN.slice(1));
     }
-    if (bigPictureSection.classList.contains(window.Class.Hidden.slice(1))) {
-      bigPictureSection.classList.remove(window.Class.Hidden.slice(1));
+    if (bigPictureSection.classList.contains(window.Class.HIDDEN.slice(1))) {
+      bigPictureSection.classList.remove(window.Class.HIDDEN.slice(1));
     }
-    closeButton.addEventListener('click', bigPictureClose);
-    window.addEventListener('keydown', bigPictureEscClose);
+    closeButton.addEventListener('click', onCloseButtonClick);
+    window.addEventListener('keydown', onCloseButtonKeydown);
   };
 
   window.picture = {
@@ -80,7 +81,7 @@
         fragment.appendChild(picture);
       });
 
-      picturesPlace.appendChild(fragment);
+      window.picturesPlace.appendChild(fragment);
 
       document.querySelectorAll('a.picture').forEach(function (picture) {
         picture.addEventListener('click', bigPictureOpen);
@@ -88,9 +89,9 @@
     },
 
     remove: function () {
-      var pictures = picturesPlace.querySelectorAll('a.picture');
+      var pictures = window.picturesPlace.querySelectorAll('a.picture');
       pictures.forEach(function (picture) {
-        picturesPlace.removeChild(picture);
+        window.picturesPlace.removeChild(picture);
       });
     },
 
@@ -100,23 +101,23 @@
 
       var buttons = document.querySelectorAll('button.img-filters__button');
       buttons.forEach(function (button) {
-        if (button.classList.contains(window.Class.FilterButtonActive)) {
-          button.classList.remove(window.Class.FilterButtonActive);
+        if (button.classList.contains(window.Class.FILTER_BUTTON_ACTIVE)) {
+          button.classList.remove(window.Class.FILTER_BUTTON_ACTIVE);
         }
         if (button.id === buttonId) {
-          button.classList.add(window.Class.FilterButtonActive);
+          button.classList.add(window.Class.FILTER_BUTTON_ACTIVE);
         }
       });
 
 
       switch (buttonId) {
-        case SortButtonId.default:
+        case SortButtonId.DEFAULT:
           this.render(window.usersFoto);
           break;
-        case SortButtonId.random:
+        case SortButtonId.RANDOM:
           this.render(window.getRandom(window.usersFoto, 10));
           break;
-        case SortButtonId.discussed:
+        case SortButtonId.DISSCUSED:
           this.render(data
             .sort(function (a, b) {
               return a.comments.length - b.comments.length;

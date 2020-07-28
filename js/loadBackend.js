@@ -1,30 +1,29 @@
 'use strict';
 
 (function () {
+  var TIMEOUT_IN_MS = 10000;
+
   var Url = {
-    load: 'https://javascript.pages.academy/kekstagram/data',
-    send: 'https://javascript.pages.academy/kekstagram'
+    LOAD: 'https://javascript.pages.academy/kekstagram/data',
+    SEND: 'https://javascript.pages.academy/kekstagram'
   };
   var Method = {
-    load: 'GET',
-    send: 'POST'
+    LOAD: 'GET',
+    SEND: 'POST'
   };
 
   window.StatusCode = {
     OK: 200
   };
 
-  var TIMEOUT_IN_MS = 10000;
-
   var onError = function (err) {
-    var picturesPlace = document.querySelector('.pictures');
-    var errMassage = document.createElement('span');
-    errMassage.textContent = err;
+    var errorMassage = document.createElement('span');
+    errorMassage.textContent = err;
     window.uploadForm.close();
-    picturesPlace.appendChild(errMassage);
+    window.picturesPlace.appendChild(errorMassage);
   };
 
-  window.backend = function (data, onSuccess) {
+  window.loadBackend = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -44,7 +43,7 @@
       });
       xhr.timeout = TIMEOUT_IN_MS;
 
-      xhr.open(Method.load, Url.load);
+      xhr.open(Method.LOAD, Url.LOAD);
       xhr.send();
     }
 
@@ -53,7 +52,7 @@
         onSuccess(xhr.status);
       });
 
-      xhr.open(Method.send, Url.send);
+      xhr.open(Method.SEND, Url.SEND);
       xhr.send(data);
     }
   };

@@ -1,13 +1,14 @@
 'use strict';
 
 (function () {
+  var COMMENTS_NUMBER = 5;
   var commentSection = document.querySelector('.social__comments');
   var commentLoader = document.querySelector('button.comments-loader');
   var commentTemplate = document.querySelector('#comment');
 
   var hideLoader = function () {
-    if (!commentLoader.classList.contains(window.Class.Hidden.slice(1))) {
-      commentLoader.classList.add(window.Class.Hidden.slice(1));
+    if (!commentLoader.classList.contains(window.Class.HIDDEN.slice(1))) {
+      commentLoader.classList.add(window.Class.HIDDEN.slice(1));
     }
   };
 
@@ -24,7 +25,7 @@
     commentSection.appendChild(fragment);
   };
 
-  window.comments = function (commentList) {
+  window.renderComments = function (commentList) {
     while (commentSection.firstChild) {
       commentSection.removeChild(commentSection.firstChild);
     }
@@ -43,42 +44,42 @@
       commentSection.appendChild(comment);
     }
 
-    if (commentList.length < 5) {
+    if (commentList.length < COMMENTS_NUMBER) {
       hideLoader();
       render(commentList);
     }
 
-    if (commentList.length > 5) {
-      if (commentLoader.classList.contains(window.Class.Hidden.slice(1))) {
-        commentLoader.classList.remove(window.Class.Hidden.slice(1));
+    if (commentList.length > COMMENTS_NUMBER) {
+      if (commentLoader.classList.contains(window.Class.HIDDEN.slice(1))) {
+        commentLoader.classList.remove(window.Class.HIDDEN.slice(1));
       }
       var localcomments = commentList.slice();
 
       var getShortComments = function () {
-        var short = [];
-        if (localcomments.length > 5) {
-          for (var i = 0; i < 5; i++) {
-            short.push(localcomments.shift());
+        var shorts = [];
+        if (localcomments.length > COMMENTS_NUMBER) {
+          for (var i = 0; i < COMMENTS_NUMBER; i++) {
+            shorts.push(localcomments.shift());
           }
         } else {
           return localcomments;
         }
-        return short;
+        return shorts;
       };
 
-      var loadComment = function () {
+      var onCommentLoaderClick = function () {
         var shortcomments = getShortComments();
         render(shortcomments);
-        if (shortcomments.length < 5) {
-          commentLoader.removeEventListener('click', loadComment);
+        if (shortcomments.length < COMMENTS_NUMBER) {
+          commentLoader.removeEventListener('click', onCommentLoaderClick);
           hideLoader();
         }
       };
 
-      if (localcomments.length > 5) {
+      if (localcomments.length > COMMENTS_NUMBER) {
         var shortcomments = getShortComments();
         render(shortcomments);
-        commentLoader.addEventListener('click', loadComment);
+        commentLoader.addEventListener('click', onCommentLoaderClick);
       }
     }
   };

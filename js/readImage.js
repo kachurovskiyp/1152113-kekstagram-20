@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  window.readImage = function (fileChooser, preview) {
-    var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-    fileChooser.addEventListener('change', function () {
+  window.readImage = function (fileChooser, preview) {
+      fileChooser.addEventListener('change', function () {
       var file = fileChooser.files[0];
       var fileName = file.name.toLowerCase();
       var matches = FILE_TYPES.some(function (item) {

@@ -4,6 +4,6 @@
     window.usersFoto = data;
 
     window.picture.render(data);
-    window.filter.active();
+    window.activeFilter();
   };
 })();
