@@ -13,13 +13,13 @@
   };
 
   var onError = function (err) {
-    var errorMassage = document.createElement('span');
-    errorMassage.textContent = err;
+    var errorMessage = document.createElement('span');
+    errorMessage.textContent = err;
     window.uploadForm.close();
-    window.picturesPlace.appendChild(errorMassage);
+    window.picturesPlace.appendChild(errorMessage);
   };
 
-  window.backend = function (data, onSuccess) {
+  window.loadBackend = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 

@@ -56,15 +56,15 @@
       var localcomments = commentList.slice();
 
       var getShortComments = function () {
-        var shorts = [];
+        var shortComments = [];
         if (localcomments.length > COMMENTS_NUMBER) {
           for (var i = 0; i < COMMENTS_NUMBER; i++) {
-            shorts.push(localcomments.shift());
+            shortComments.push(localcomments.shift());
           }
         } else {
           return localcomments;
         }
-        return shorts;
+        return shortComments;
       };
 
       var onCommentLoaderClick = function () {
